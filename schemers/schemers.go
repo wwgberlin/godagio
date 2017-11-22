@@ -6,9 +6,7 @@ import (
 )
 
 type (
-	Schemer interface {
-		GetPalette(base color.Color, num int) Palette
-	}
+	Schemer func(base color.Color, size int) Palette
 
 	Schemers interface {
 		Get(string) (Schemer, error)
@@ -23,7 +21,7 @@ type (
 
 func New() Schemers {
 	return &schemers{
-		"monochromatic": &monochromaticSchemer{},
+		"monochromatic": monochromaticSchemer,
 	}
 }
 

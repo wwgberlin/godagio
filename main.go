@@ -15,7 +15,7 @@ import (
 var (
 	fbase   string
 	fscheme string
-	fnum    int
+	fsize    int
 )
 
 func r(n int) int {
@@ -25,19 +25,19 @@ func r(n int) int {
 
 
 func init() {
-	flag.IntVar(&fnum, "num", 5, "number of colors in palette")
+	flag.IntVar(&fsize, "size", 5, "number of colors in palette")
 	flag.StringVar(&fscheme, "scheme", "default", "scheme type")
 
-	// base color is mandatory? - randomize one
+	// todo: base color is mandatory? - randomize one
 	// how many base colors do we want to allow?
-	flag.StringVar(&fbase, "base", fmt.Sprintf("#%02X%02X%02X", r(255), r(255), r(255)), "number of colors in palette")
+	flag.StringVar(&fbase, "base", fmt.Sprintf("#%02X%02X%02X", r(255), r(255), r(255)), "optional: base color")
 }
 
 
 func main() {
 	flag.Parse()
 
-	//todo: validate num > 0
+	//todo: validate size > 0
 
 	baseColor, err := color.Hex(fbase) // todo: add proper validation
 
@@ -52,6 +52,6 @@ func main() {
 	if schemer, err := schemers.New().Get(fscheme); err != nil {
 		log.Fatal(err)
 	} else {
-		fmt.Println(schemer.GetPalette(baseColor, fnum))
+		fmt.Println(schemer(baseColor, fsize))
 	}
 }
