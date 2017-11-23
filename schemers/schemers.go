@@ -23,6 +23,7 @@ type (
 func New() Schemers {
 	return &schemers{
 		"monochromatic": monochromaticSchemer,
+		"analogous": analogousSchemer,
 	}
 }
 
