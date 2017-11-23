@@ -12,7 +12,7 @@ import (
 type (
 	Color interface {
 		Hex() string
-		Hsv() (h, s, v float64)
+		Hsl() (h, s, l float64)
 		Complement() Color
 	}
 	color struct {
@@ -25,13 +25,13 @@ func Hex(h string) (Color, error) {
 	return color{c}, err
 }
 
-func Hsv(h, s, v float64) Color {
-	c := colorful.Hsv(h, s, v)
+func Hsl(h, s, l float64) Color {
+	c := colorful.Hsl(h, s, l)
 	return color{c}
 }
 
 func (c color) Complement() Color {
-	h, s, v := c.Hsv()
+	h, s, l := c.Hsl()
 	h = math.Mod((h + 180), 360)
-	return Hsv(h, s, v)
+	return Hsl(h, s, l)
 }

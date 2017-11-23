@@ -6,7 +6,8 @@ import (
 )
 
 type (
-	Schemer func(base color.Color, size int) Palette
+	randomizer func(int)int
+	Schemer func(base color.Color, size int, r randomizer) Palette
 
 	Schemers interface {
 		Get(string) (Schemer, error)

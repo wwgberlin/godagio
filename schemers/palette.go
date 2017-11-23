@@ -40,11 +40,15 @@ func (p palette) String() string {
 }
 
 func saturation(c1, c2 *color.Color) bool {
-	_, s1, _ := (*c1).Hsv()
-	_, s2, _ := (*c2).Hsv()
-	return s1 < s2
+	_, s1, _ := (*c1).Hsl()
+	_, s2, _ := (*c2).Hsl()
+	return s1 > s2
 }
-
+func lightness(c1, c2 *color.Color) bool {
+	_, _, l1 := (*c1).Hsl()
+	_, _, l2 := (*c2).Hsl()
+	return l1 > l2
+}
 func (by by) Sort(colors []color.Color) {
 	ps := &colorSorter{
 		colors: colors,

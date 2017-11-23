@@ -52,6 +52,6 @@ func main() {
 	if schemer, err := schemers.New().Get(fscheme); err != nil {
 		log.Fatal(err)
 	} else {
-		fmt.Println(schemer(baseColor, fsize))
+		fmt.Println(schemer(baseColor, fsize, r))
 	}
 }
