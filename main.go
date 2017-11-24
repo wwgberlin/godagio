@@ -23,16 +23,20 @@ func r(n int) int {
 }
 
 func init() {
-	flag.IntVar(&fsize, "size", 5, "number of colors in palette")
-	flag.StringVar(&fscheme, "scheme", "random", "scheme type - default is random")
+	flag.IntVar(&fsize, "size", 5, "Number of colors in palette")
+	flag.StringVar(&fscheme, "scheme", "random", "Color scheme type [random|monochromatic|analogous]")
 
 	// todo: base color is mandatory? - randomize one
 	// how many base colors do we want to allow?
-	flag.StringVar(&fbase, "base", fmt.Sprintf("#%02X%02X%02X", r(255), r(255), r(255)), "optional: base color")
+	flag.StringVar(&fbase, "base", "random", "Comma separated base color values. \n\tExample [#FFDD00,#FFCC00]\n\tIf not given or random specified will randomize a base color")
 }
 
 func main() {
 	flag.Parse()
+
+	if fbase == "random" {
+		fbase = fmt.Sprintf("#%02X%02X%02X", r(255), r(255), r(255))
+	}
 
 	//todo: validate size > 0
 	//todo: validate size > number of base colors
@@ -40,11 +44,13 @@ func main() {
 	baseColor, err := color.Hex(fbase) // todo: add proper validation
 
 	if err != nil {
-		log.Fatal(err)
+		flag.Usage()
+		return
 	}
 
 	if schemer, err := schemers.New(r).Get(fscheme); err != nil {
-		log.Fatal(err)
+		flag.Usage()
+		return
 	} else {
 		if colors, err := schemer([]color.Color{baseColor}, fsize, r); err == nil {
 			fmt.Println(palette(colors))
