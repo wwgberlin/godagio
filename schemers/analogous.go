@@ -9,7 +9,7 @@ func analogousSchemer(bases []color.Color, size int, r randomizer) ([]color.Colo
 		return bases, nil
 	}
 
-	deg := float64(360) / float64(size)
+	deg := float64(10 + r(350)) / float64(size)
 
 	base := bases[0]
 	h, s, l := base.Hsl()
