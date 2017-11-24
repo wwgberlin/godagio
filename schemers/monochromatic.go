@@ -4,10 +4,12 @@ import (
 	"github.com/wwgberlin/godagio/color"
 )
 
-func monochromaticSchemer(base color.Color, size int, r randomizer) Palette {
+func monochromaticSchemer(bases []color.Color, size int, r randomizer) ([]color.Color, error) {
 	if size == 1 {
-		return palette{base}
+		return bases, nil
 	}
+
+	base := bases[0]
 
 	h, _, _ := base.Hsl()
 	p := make([]color.Color, size)
@@ -20,6 +22,5 @@ func monochromaticSchemer(base color.Color, size int, r randomizer) Palette {
 		p[i] = color.Hsl(h, s, l)
 	}
 	p[size-1] = base
-	by(lightness).Sort(p)
-	return palette(p)
+	return p, nil
 }
