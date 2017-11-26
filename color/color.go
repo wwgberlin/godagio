@@ -4,7 +4,8 @@ import (
 	"math"
 
 	"github.com/lucasb-eyer/go-colorful"
-)
+
+	)
 
 // using this library to wrap colorful lib
 // if needed, can add RGB255() to interface...

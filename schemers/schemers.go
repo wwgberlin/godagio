@@ -8,21 +8,21 @@ import (
 
 type (
 	randomizer func(int) int
-	schemer func(base color.Color, size int, r randomizer) []color.Color
+	Schemer    func(base color.Color, size int, r randomizer) []color.Color
 
 	Schemers interface {
-		Get(string) (schemer, error)
-		Register(id string, schemer schemer)
+		Get(string) (Schemer, error)
+		Register(id string, schemer Schemer)
 	}
 
 	undefinedSchemerError struct {
 		schemerID string
 	}
 
-	schemers map[string]schemer
+	schemers map[string]Schemer
 )
 
-func randomSchemer(m schemers, r randomizer) schemer {
+func randomSchemer(m schemers, r randomizer) Schemer {
 	idx := r(len(m))
 	i := 0
 	for _, v := range m {
@@ -43,17 +43,16 @@ func New(r randomizer) Schemers {
 	return &m
 }
 
-func (s schemers) Register(id string, schemer schemer) {
+func (s schemers) Register(id string, schemer Schemer) {
 	s[id] = schemer
 }
 
-func (s schemers) Get(id string) (schemer, error) {
+func (s schemers) Get(id string) (Schemer, error) {
 	if schemer, ok := s[id]; ok {
 		return schemer, nil
 	}
 	return nil, &undefinedSchemerError{id}
 }
-
 
 func (e undefinedSchemerError) Error() string {
 	return fmt.Sprintf("Schemer %s doesn't exist", e.schemerID)
