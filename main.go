@@ -1,19 +1,19 @@
 package main
 
 import (
-	"log"
 	"flag"
+	"fmt"
 	"math/rand"
 	"time"
-	"fmt"
 
-	"github.com/wwgberlin/godagio/schemers"
 	"github.com/wwgberlin/godagio/color"
+	"github.com/wwgberlin/godagio/schemers"
 )
 
 var (
 	fbase   string
 	fscheme string
+	foutput string
 	fsize   int
 )
 
@@ -25,6 +25,7 @@ func r(n int) int {
 func init() {
 	flag.IntVar(&fsize, "size", 5, "Number of colors in palette")
 	flag.StringVar(&fscheme, "scheme", "random", "Color scheme type [random|monochromatic|analogous]")
+	flag.StringVar(&foutput, "output", "text", "Output type [html|text]")
 
 	// todo: base color is mandatory? - randomize one
 	// how many base colors do we want to allow?
@@ -39,7 +40,6 @@ func main() {
 	}
 
 	//todo: validate size > 0
-	//todo: validate size > number of base colors
 
 	baseColor, err := color.Hex(fbase) // todo: add proper validation
 
@@ -52,10 +52,14 @@ func main() {
 		flag.Usage()
 		return
 	} else {
-		if colors, err := schemer([]color.Color{baseColor}, fsize, r); err == nil {
-			fmt.Println(palette(colors))
-		}else{
-			log.Fatal(err)
+		colors := schemer(baseColor, fsize, r)
+
+		p := palette(colors)
+		if foutput == "html" {
+			fmt.Println(p.Html())
+		} else if foutput == "text" {
+			fmt.Println(p)
 		}
 	}
+
 }

@@ -2,26 +2,27 @@ package schemers
 
 import (
 	"fmt"
+
 	"github.com/wwgberlin/godagio/color"
 )
 
 type (
 	randomizer func(int) int
-	Schemer func(base []color.Color, size int, r randomizer) ([]color.Color, error)
+	schemer func(base color.Color, size int, r randomizer) []color.Color
 
 	Schemers interface {
-		Get(string) (Schemer, error)
-		Register(id string, schemer Schemer)
+		Get(string) (schemer, error)
+		Register(id string, schemer schemer)
 	}
 
 	undefinedSchemerError struct {
 		schemerID string
 	}
 
-	schemers map[string]Schemer
+	schemers map[string]schemer
 )
 
-func randomSchemer(m schemers, r randomizer) func([]color.Color, int, randomizer) ([]color.Color, error) {
+func randomSchemer(m schemers, r randomizer) schemer {
 	idx := r(len(m))
 	i := 0
 	for _, v := range m {
@@ -42,16 +43,17 @@ func New(r randomizer) Schemers {
 	return &m
 }
 
-func (s schemers) Register(id string, schemer Schemer) {
+func (s schemers) Register(id string, schemer schemer) {
 	s[id] = schemer
 }
 
-func (s schemers) Get(id string) (Schemer, error) {
+func (s schemers) Get(id string) (schemer, error) {
 	if schemer, ok := s[id]; ok {
 		return schemer, nil
 	}
 	return nil, &undefinedSchemerError{id}
 }
+
 
 func (e undefinedSchemerError) Error() string {
 	return fmt.Sprintf("Schemer %s doesn't exist", e.schemerID)

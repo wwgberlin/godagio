@@ -1,11 +1,11 @@
 package color
 
 import (
-	"github.com/lucasb-eyer/go-colorful"
 	"math"
+
+	"github.com/lucasb-eyer/go-colorful"
 )
 
-// todo: could not find the implantation of what we need in the core lib is this okay?
 // using this library to wrap colorful lib
 // if needed, can add RGB255() to interface...
 
@@ -32,6 +32,6 @@ func Hsl(h, s, l float64) Color {
 
 func (c color) Complement() Color {
 	h, s, l := c.Hsl()
-	h = math.Mod((h + 180), 360)
+	h = math.Mod(h+180, 360)
 	return Hsl(h, s, l)
 }
