@@ -46,11 +46,9 @@ func init() {
 		"Color scheme type [random|monochromatic|analogous]")
 	flag.StringVar(&foutput, "output", "text", "Output type [html|text]")
 
-	// todo: base color is mandatory? - randomize one
-	// how many base colors do we want to allow?
 	flag.StringVar(&fbase, "base", "random",
-		"Comma separated base color values. "+
-			"\n\tExample [#FFDD00,#FFCC00]\n\tIf not given or random specified will randomize a base color")
+		"Base color hex representation"+
+			"\n\tExample: #FFDD00\n\tIf not given or random specified will randomize a base color")
 }
 
 func main() {
