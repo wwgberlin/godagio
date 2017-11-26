@@ -39,7 +39,15 @@ func main() {
 		fbase = fmt.Sprintf("#%02X%02X%02X", r(255), r(255), r(255))
 	}
 
-	//todo: validate size > 0
+	if foutput != "text" && fbase != "html" {
+		flag.Usage()
+		return
+	}
+
+	if fsize < 0 {
+		flag.Usage()
+		return
+	}
 
 	baseColor, err := color.Hex(fbase) // todo: add proper validation
 
