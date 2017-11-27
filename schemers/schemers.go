@@ -37,6 +37,7 @@ func randomSchemer(m schemers, r randomizer) Schemer {
 func New(r randomizer) Schemers {
 	m := schemers{
 		"monochromatic": monochromaticSchemer,
+		"complementary": complementarySchemer,
 		"analogous":     analogousSchemer,
 	}
 	m["random"] = randomSchemer(m, r)
