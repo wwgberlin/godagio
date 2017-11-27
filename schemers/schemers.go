@@ -8,7 +8,11 @@ import (
 
 type (
 	randomizer func(int) int
-	Schemer    func(base color.Color, size int, r randomizer) []color.Color
+	schemer    func(base color.Color, size int, r randomizer) []color.Color
+
+	Schemer interface {
+		Run(base color.Color, size int, r randomizer) []color.Color
+	}
 
 	Schemers interface {
 		Get(string) (Schemer, error)
@@ -21,6 +25,10 @@ type (
 
 	schemers map[string]Schemer
 )
+
+func (s schemer) Run(base color.Color, size int, r randomizer) []color.Color {
+	return s(base, size, r)
+}
 
 func randomSchemer(m schemers, r randomizer) Schemer {
 	idx := r(len(m))
@@ -36,9 +44,9 @@ func randomSchemer(m schemers, r randomizer) Schemer {
 
 func New(r randomizer) Schemers {
 	m := schemers{
-		"monochromatic": monochromaticSchemer,
-		"complementary": complementarySchemer,
-		"analogous":     analogousSchemer,
+		"monochromatic": schemer(monochromaticSchemer),
+		"complementary": schemer(complementarySchemer),
+		"analogous":     schemer(analogousSchemer),
 	}
 	m["random"] = randomSchemer(m, r)
 	return &m

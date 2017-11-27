@@ -90,7 +90,7 @@ func main() {
 		return
 	}
 
-	colors := schemer(baseColor, fsize, r)
+	colors := schemer.Run(baseColor, fsize, r)
 
 	p := palette(colors)
 	if foutput == "html" {
