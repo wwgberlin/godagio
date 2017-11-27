@@ -12,7 +12,6 @@ type (
 		Hsl() (h, s, l float64)
 		RGB255() (h, s, l uint8)
 		Rotate(angle float64) Color
-		Complement() Color
 	}
 	color struct {
 		colorful.Color
@@ -32,11 +31,5 @@ func Hsl(h, s, l float64) Color {
 func (c color) Rotate(angle float64) Color {
 	h, s, l := c.Hsl()
 	h = math.Mod(h+angle, 360)
-	return Hsl(h, s, l)
-}
-
-func (c color) Complement() Color {
-	h, s, l := c.Hsl()
-	h = math.Mod(h+180, 360)
 	return Hsl(h, s, l)
 }
