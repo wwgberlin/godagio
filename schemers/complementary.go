@@ -13,7 +13,7 @@ func complementarySchemer(base color.Color, size int, r randomizer) []color.Colo
 		bm = monochromaticSchemer(base, size/2, r)
 	}
 
-	cm := monochromaticSchemer(base.Complement(), size/2, r)
+	cm := monochromaticSchemer(base.Rotate(180), size/2, r)
 
 	return append(bm, cm...)
 }

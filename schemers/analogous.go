@@ -7,18 +7,15 @@ import (
 func analogousSchemer(base color.Color, size int, r randomizer) []color.Color {
 	deg := float64(360) / float64(size)
 
-	h, s, _ := base.Hsl()
 	p := make([]color.Color, size)
 
 	for i := 0; i < size; i++ {
-		d := h + deg*float64(size-i)
-
-		if d > 360 {
-			d = - (360 - d)
-		}
+		h, _, _ := base.Rotate(deg * float64(size-i)).Hsl()
 		dl := float64(r(100))
 		l := float64(dl / float64(100.0))
-		p[i] = color.Hsl(d, s, l)
+		ds := float64(r(100))
+		s := float64(ds / float64(100.0))
+		p[i] = color.Hsl(h, s, l)
 	}
 	return p
 }

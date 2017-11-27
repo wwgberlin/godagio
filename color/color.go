@@ -4,16 +4,14 @@ import (
 	"math"
 
 	"github.com/lucasb-eyer/go-colorful"
-
-	)
-
-// using this library to wrap colorful lib
-// if needed, can add RGB255() to interface...
+)
 
 type (
 	Color interface {
 		Hex() string
 		Hsl() (h, s, l float64)
+		RGB255() (h, s, l uint8)
+		Rotate(angle float64) Color
 		Complement() Color
 	}
 	color struct {
@@ -29,6 +27,12 @@ func Hex(h string) (Color, error) {
 func Hsl(h, s, l float64) Color {
 	c := colorful.Hsl(h, s, l)
 	return color{c}
+}
+
+func (c color) Rotate(angle float64) Color {
+	h, s, l := c.Hsl()
+	h = math.Mod(h+angle, 360)
+	return Hsl(h, s, l)
 }
 
 func (c color) Complement() Color {

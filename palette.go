@@ -1,7 +1,8 @@
 package main
 
 import (
-	"fmt"
+	"bytes"
+	"html/template"
 	"strings"
 
 	"github.com/wwgberlin/godagio/color"
@@ -20,15 +21,11 @@ func (p palette) String() string {
 }
 
 func (p palette) Html() string {
-	str := "<body bgcolor='gray' text='white'><table align='center' style='border-spacing:0' width='50%' height='100%'><tr>"
-	for _, c := range p {
-		str += fmt.Sprintf("<td bgcolor='%s'></td>", c.Hex())
-	}
-	str += "</tr><tr>"
-	for _, c := range p {
-		str += fmt.Sprintf("<td align='center' valign='top' height='20px'>%s</td>", c.Hex())
-	}
-	str += "</tr></table></body>"
+	var tpl bytes.Buffer
 
-	return str
+	t := template.New("palette.tmpl")
+	t.ParseFiles("templates/palette.tmpl")
+	t.Execute(&tpl, p)
+
+	return tpl.String()
 }

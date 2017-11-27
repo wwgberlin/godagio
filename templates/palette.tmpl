@@ -1,0 +1,19 @@
+<html>
+<head>
+    <title>Palette</title>
+</head>
+<body bgcolor='gray' text='white'>
+<table align="center" style="border-spacing:0px" width="50%" height="100%">
+    <tr>
+    {{ range . }}
+            <td bgcolor="{{ .Hex }}"></td>
+    {{ end }}
+    </tr>
+    <tr>
+    {{ range . }}
+        <td align='center' valign='top' height='20px'>{{ .Hex }}</td>
+    {{ end }}
+    </tr>
+</table>
+</body>
+</html>
