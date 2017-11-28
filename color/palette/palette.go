@@ -1,4 +1,4 @@
-package main
+package palette
 
 import (
 	"bytes"
@@ -9,8 +9,16 @@ import (
 )
 
 type (
+	Palette interface {
+		Html() string
+	}
+
 	palette []color.Color
 )
+
+func New(colors []color.Color) Palette {
+	return palette(colors)
+}
 
 func (p palette) String() string {
 	arr := make([]string, len(p))

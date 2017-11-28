@@ -4,6 +4,7 @@ import (
 	"fmt"
 
 	"github.com/wwgberlin/godagio/color"
+	"github.com/wwgberlin/godagio/color/palette"
 )
 
 func main() {
@@ -11,6 +12,6 @@ func main() {
 	//run go build . && ./godagio > index.html && open index.html
 	c1, _ := color.Hex("#CC44CC")
 	c2, _ := color.Hex("#44AAAA")
-	p := palette([]color.Color{c1, c2})
+	p := palette.New([]color.Color{c1, c2})
 	fmt.Println(p.Html())
 }
